@@ -1,17 +1,17 @@
-from abc import ABCMeta, abstractmethod
-import asyncio
-import os
-import sys
 import re
 import threading
 import time
-from queue import Queue, Empty
-from typing import List, Optional
-
+from queue import Queue
+from typing import List, Union
 import boto3 as boto3
+
 from raspi_gpio_streamer.log import logger
-from raspi_gpio_streamer.config import AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION
-from typing import Union
+from raspi_gpio_streamer.config import (
+    AWS_ACCESS_KEY,
+    AWS_SECRET_ACCESS_KEY,
+    AWS_DEFAULT_REGION,
+    HW_ID,
+)
 
 KINESIS_MSG_MAX_BYTES = 1000000
 SEND_INTERVAL_SEC = 0.1
@@ -21,7 +21,6 @@ class KinesisStreamer:
     key_re = re.compile(r".*\$\$\$")
 
     def __init__(self, stream_name: str):
-        
         self.__kinesis = boto3.client(
             "kinesis",
             aws_access_key_id=AWS_ACCESS_KEY,
@@ -35,7 +34,6 @@ class KinesisStreamer:
         self._current_chunk = None
         self.__worker_thread = None
 
-
     def enq(self, msg: Union[List, str]):
         msg_list = [msg] if type(msg) == str else msg
         for m in msg_list:
@@ -46,7 +44,9 @@ class KinesisStreamer:
             logger.warning("{}: Already Started".format(self.__class__.__name__))
             return False
         self.__is_running = True
-        self.__worker_thread = threading.Thread(target=self.__worker, daemon=True).start()
+        self.__worker_thread = threading.Thread(
+            target=self.__worker, daemon=True
+        ).start()
         logger.info("{}: Started".format(self.__class__.__name__))
         return True
 
@@ -76,6 +76,7 @@ class KinesisStreamer:
                 )
         except Exception as e:
             import traceback
+
             logger.error(e)
             logger.error(traceback.format_exc())
 
@@ -83,8 +84,7 @@ class KinesisStreamer:
 
     def _build_message(self):
         next_line = self.__send_q.get()
-        payload = next_line + "\n"
+        payload = HW_ID + "," + next_line + "\n"
         payload.rstrip()
 
         return payload
-

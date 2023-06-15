@@ -10,7 +10,7 @@ def main():
 
         def on_read_value(self, value, pin):
             logger.debug(f"{pin} {value}")
-            self._streamer.enq([f"{pin} {value}"])
+            self._streamer.enq([f"{pin},{value}"])
 
     streamer = KinesisStreamer("raspi_stream")
     connector = Connector(streamer)

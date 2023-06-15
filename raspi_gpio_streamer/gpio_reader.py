@@ -2,7 +2,6 @@ from abc import abstractmethod
 import RPi.GPIO as GPIO
 import time
 import threading
-from typing import Callable
 from raspi_gpio_streamer.log import logger
 from abc import ABCMeta
 
