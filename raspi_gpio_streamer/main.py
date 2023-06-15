@@ -2,6 +2,7 @@ import sys
 from raspi_gpio_streamer.kinesis_streamer import KinesisStreamer
 from raspi_gpio_streamer.gpio_reader import RaspiGPIO, RaspiGPIO_IF
 from raspi_gpio_streamer.log import logger
+from raspi_gpio_streamer.config import KINESIS_STREAM_NAME
 
 def main():
     class Connector(RaspiGPIO_IF):
@@ -12,7 +13,7 @@ def main():
             logger.debug(f"{pin} {value}")
             self._streamer.enq([f"{pin},{value}"])
 
-    streamer = KinesisStreamer("raspi_stream")
+    streamer = KinesisStreamer(KINESIS_STREAM_NAME)
     connector = Connector(streamer)
     gpio_reader = RaspiGPIO()
     gpio_reader.set_callback(connector)
