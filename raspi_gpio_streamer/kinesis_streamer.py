@@ -41,22 +41,22 @@ class KinesisStreamer:
 
     def start(self):
         if self.__is_running:
-            logger.warning("{}: Already Started".format(self.__class__.__name__))
+            logger.warning("Already Started")
             return False
         self.__is_running = True
         self.__worker_thread = threading.Thread(
             target=self.__worker, daemon=True
         ).start()
-        logger.info("{}: Started".format(self.__class__.__name__))
+        logger.info("Started")
         return True
 
     def stop(self):
         if not self.__is_running:
-            logger.warning("{}: Already Stopped".format(self.__class__.__name__))
+            logger.warning("Already Stopped")
             return False
         if self.__worker_thread:
             self.__worker_thread.join()
-        logger.info("{}: Stopped".format(self.__class__.__name__))
+        logger.info("Stopped")
         return True
 
     def __worker(self):
