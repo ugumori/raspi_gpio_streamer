@@ -13,7 +13,6 @@ from raspi_gpio_streamer.config import (
     HW_ID,
 )
 
-KINESIS_MSG_MAX_BYTES = 1000000
 SEND_INTERVAL_SEC = 0.1
 
 
@@ -30,8 +29,6 @@ class KinesisStreamer:
         self.__stream_name = stream_name
         self.__send_q = Queue()
         self.__is_running = False
-        self._push_back = None
-        self._current_chunk = None
         self.__worker_thread = None
 
     def enq(self, msg: Union[List, str]):
