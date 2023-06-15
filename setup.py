@@ -31,7 +31,7 @@ setup(
     description="Python Boilerplate contains all the boilerplate you need to create a Python package.",
     entry_points={
         'console_scripts': [
-            'raspi_gpio_streamer=raspi_gpio_streamer.cli:main',
+            'raspi_gpio_streamer=raspi_gpio_streamer.main:main',
         ],
     },
     install_requires=requirements,
