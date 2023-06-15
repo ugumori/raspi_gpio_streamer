@@ -34,7 +34,7 @@ class RaspiGPIO:
         self._callback = callback
 
     def start(self):
-        self._is_stop = False
+        self.is_stop = False
         self._thread = threading.Thread(target=self.__process, daemon=True).start()
 
     def stop(self):
