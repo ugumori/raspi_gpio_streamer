@@ -12,7 +12,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['Click>=7.0', ]
 
-test_requirements = ['pytest>=3', ]
+with open("requirements.txt") as requirements_file:
+    requirements = requirements_file.read()
+
 
 setup(
     author="MasatakaUgumori",
