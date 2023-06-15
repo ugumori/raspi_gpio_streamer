@@ -20,8 +20,13 @@ def main():
     streamer.start()
     gpio_reader.start()
 
-    while True:
-        pass
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        streamer.stop()
+        gpio_reader.stop()
+        logger.info("finished")
 
 
 if __name__ == "__main__":
