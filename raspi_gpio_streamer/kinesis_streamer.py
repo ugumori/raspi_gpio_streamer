@@ -8,7 +8,6 @@ import time
 from queue import Queue, Empty
 from typing import List, Optional
 
-import aioredis
 import boto3 as boto3
 from raspi_gpio_streamer.log import logger
 
