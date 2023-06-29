@@ -81,7 +81,7 @@ class KinesisStreamer:
 
     def _build_message(self):
         next_line = self.__send_q.get()
-        payload = HW_ID + "," + next_line + "\n"
+        payload = HW_ID + "," + next_line
         payload.rstrip()
 
         return payload
